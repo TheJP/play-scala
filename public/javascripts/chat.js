@@ -3,12 +3,6 @@ function receiveMessages(msgs){
     msgs.reverse(); //Order messages correct for view
     for(var key in msgs){
         var msg = msgs[key];
-//        var message = $('<div />', { id: 'message-' + msg.id, class: 'message' });
-//        message.append($('<a />',
-//            { id: 'person-' + msg.id, class: 'person', href: '#'}).text(msg.username));
-//        message.append($('<span />').addClass('time').text(api.formatTime(msg.time)));
-//        message.append($('<span />').addClass('message-content').text(msg.msg));
-//        message.addClass(user.id == msg.userid ? 'own' : 'their');
         var message = $('<p />').text(msg);
         $('#chat').append(message);
         //Scroll to bottom

@@ -5,13 +5,13 @@ html, body, .container {
 	margin-bottom: 20px;
 }
 #chat {
-	min-height: 400px;
-	max-height: calc(100% - 144px);
+	height: calc(100% - 144px);
 	border: 1px solid #333;
 	border-radius: 5px;
 	margin-bottom: 20px;
 	padding: 10px;
 	overflow-y: hidden;
+	background-color: transparent;
 }
 #chat:hover {
 	overflow-y: scroll;
@@ -19,4 +19,12 @@ html, body, .container {
 
 p {
 	margin-bottom: 5px;
+}
+
+#canvas {
+	background-color: green;
+	position: absolute;
+	margin: 0 auto 0 auto;
+	height: calc(100% - 144px);
+	z-index: -100"
 }
