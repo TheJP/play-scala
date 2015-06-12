@@ -1,0 +1,14 @@
+#connect {
+	margin-bottom: 20px;
+}
+#chat {
+	min-height: 400px;
+	border: 1px solid #333;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+p {
+	margin-bottom: 5px;
+}

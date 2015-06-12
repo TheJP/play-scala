@@ -100,7 +100,7 @@ api.reconnect = function(){
 }
 api.send = function(type, obj){
     if(!obj){ obj = {}; }
-    obj.t = type;
+    obj.type = type;
     if(api.ws != null && api.ready){
         var message = JSON.stringify(obj);
         if(env.debug){ console.log('-> ' + message); }
@@ -111,13 +111,13 @@ api.handle = function(evt){
     if(evt.data){
         if(env.debug){ console.log('<- ' + evt.data); }
         var obj = JSON.parse(evt.data);
-        if(obj.r){
-            var r = parseInt(obj.r);
-            if(r in api.callbacks && $.isArray(api.callbacks[r])){
+        if(obj.type){
+            var type = parseInt(obj.type);
+            if(type in api.callbacks && $.isArray(api.callbacks[type])){
                 //Execute callbacks
                 var key;
-                for(key in api.callbacks[r]){
-                    api.callbacks[r][key](obj);
+                for(key in api.callbacks[type]){
+                    api.callbacks[type][key](obj);
                 }
             }
         }
