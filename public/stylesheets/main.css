@@ -1,12 +1,20 @@
+html, body, .container {
+	height: 100%;
+}
 #connect {
 	margin-bottom: 20px;
 }
 #chat {
 	min-height: 400px;
+	max-height: calc(100% - 144px);
 	border: 1px solid #333;
 	border-radius: 5px;
 	margin-bottom: 20px;
 	padding: 10px;
+	overflow-y: hidden;
+}
+#chat:hover {
+	overflow-y: scroll;
 }
 
 p {
