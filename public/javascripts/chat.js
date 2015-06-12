@@ -39,9 +39,15 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$('#send-form').submit(function(){
+		api.send(ApiRequest.SendMessage, { msg: $('#message').val() });
+		$('#message').val('')
+		return false;
+	})
+
     //Receive message notifications
     api.register(ApiRequest.SendMessage, function(data){
-        if(data.success){ receiveMessages(data.msgs); }
+        if(data.success){ receiveMessages([data.username + ': ' + data.msg]); }
         else { alert(data.error_text); }
     });
     //Receive login notifications

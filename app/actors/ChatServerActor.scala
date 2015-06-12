@@ -21,6 +21,18 @@ case class Login(username: String) extends Msg {
   }
 }
 
+case object SendMessage { val msgType = 31 }
+case class SendMessage(msg: String)
+case class SendMessageResponse(msg: String, username: String) extends Msg {
+  def json = {
+    toJson(Map(
+      "type" -> toJson(SendMessage.msgType),
+      "msg" -> toJson(msg),
+      "username" -> toJson(username)
+    ))
+  }
+}
+
 object ChatServerActor {
   val serverRef: ActorRef = Akka.system.actorOf(Props[ChatServerActor])
 }
@@ -43,6 +55,10 @@ class ChatServerActor extends Actor {
         val username = (request \ "username").asOpt[String]
         if(username == None) None else Some(Login(username.get))
       }
+      case Some(SendMessage.msgType) => {
+        val msg = (request \ "msg").asOpt[String]
+        msg.map { msg => SendMessage(msg) } //alternative syntax to the above if/else expression
+      }
     }
   }
 
@@ -62,11 +78,20 @@ class ChatServerActor extends Actor {
    */
   def toError(response: Msg): String = ???
 
+  def sendAll(json: String) = users.foreach(pair => pair._1 ! json)
+
   def handle(out: ActorRef, request: Option[Any]) : Unit = request match {
     case Some(Login(username)) => {
       users += (out -> username)
-      val notification = toResponse(Login(username), true)
-      users.foreach(pair => pair._1 ! notification)
+      val notification = toResponse(Login(username))
+      sendAll(notification)
+    }
+    case Some(SendMessage(msg)) => {
+      val username = users.get(out)
+      if(username != None){
+        val notification = toResponse(SendMessageResponse(msg, username.get))
+        sendAll(notification)
+      }
     }
   }
 }
