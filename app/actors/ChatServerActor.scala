@@ -33,6 +33,18 @@ case class SendMessageResponse(msg: String, username: String) extends Msg {
   }
 }
 
+case object MouseMove { val msgType = 71 }
+case class MouseMove(username: String, x: Double, y: Double) extends Msg {
+  def json = {
+    toJson(Map(
+      "type" -> toJson(MouseMove.msgType),
+      "username" -> toJson(username),
+      "x" -> toJson(x),
+      "y" -> toJson(y)
+    ))
+  }
+}
+
 object ChatServerActor {
   val serverRef: ActorRef = Akka.system.actorOf(Props[ChatServerActor])
 }
@@ -48,8 +60,8 @@ class ChatServerActor extends Actor {
   }
 
   def toRequest(request: JsValue) = {
-    val reType = (request \ "type").asOpt[Int]
-    reType match {
+    val msgType = (request \ "type").asOpt[Int]
+    msgType match {
       case None => { None }
       case Some(Login.msgType) => {
         val username = (request \ "username").asOpt[String]
@@ -59,6 +71,13 @@ class ChatServerActor extends Actor {
         val msg = (request \ "msg").asOpt[String]
         msg.map { msg => SendMessage(msg) } //alternative syntax to the above if/else expression
       }
+      case Some(MouseMove.msgType) => {
+        val username = (request \ "username").asOpt[String]
+        val x = (request \ "x").asOpt[Double]
+        val y = (request \ "y").asOpt[Double]
+        if(username == None || x == None || y == None) None else Some(MouseMove(username.get, x.get, y.get))
+      }
+      case _ => { None } //Ignore any other case
     }
   }
 
@@ -93,5 +112,9 @@ class ChatServerActor extends Actor {
         sendAll(notification)
       }
     }
+    case Some(r: MouseMove) => {
+      sendAll(toResponse(r))
+    }
+    case _ => {} //Ignore any other case
   }
 }

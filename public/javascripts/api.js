@@ -1,5 +1,5 @@
 env = {
-    debug : true
+    debug : false
 };
 var ApiRequest = {
     //User Operations
@@ -26,7 +26,10 @@ var ApiRequest = {
     //Admin Operations
     Mute : 51,
     Ban : 52,
-    ChangePermission : 53
+    ChangePermission : 53,
+
+    //Mouse Operations
+    MouseMove : 71
 };
 var ApiResponse = {
     //1 client request to 1 server response

@@ -1,3 +1,5 @@
+var username = '';
+
 //Display new messages
 function receiveMessages(msgs){
     msgs.reverse(); //Order messages correct for view
@@ -20,6 +22,7 @@ $(document).ready(function(){
 			//Success
 			function(){
 				api.send(ApiRequest.Login, { username: $('#username').val() });
+				username = $('#username').val();
 				$('#connect').slideUp();
 				$('#send').slideDown(function(){ $('#send input').focus(); });
 			},

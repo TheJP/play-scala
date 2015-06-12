@@ -1,10 +1,23 @@
+/**
+ * 01. Core Style
+ */
 html, body, .container {
 	height: 100%;
 }
+
+.container {
+	position: relative;
+}
+
+/**
+ * 02. Chat Style
+ */
 #connect {
 	margin-bottom: 20px;
 }
+
 #chat {
+	z-index: 100; /* In front of canvas */
 	height: calc(100% - 144px);
 	border: 1px solid #333;
 	border-radius: 5px;
@@ -12,7 +25,9 @@ html, body, .container {
 	padding: 10px;
 	overflow-y: hidden;
 	background-color: transparent;
+	position: relative;
 }
+
 #chat:hover {
 	overflow-y: scroll;
 }
@@ -21,10 +36,15 @@ p {
 	margin-bottom: 5px;
 }
 
+/**
+ * 03. Canvas Style
+ */
 #canvas {
-	background-color: green;
+	z-index: -100; /* Behind chat */
+	display: block;
 	position: absolute;
 	margin: 0 auto 0 auto;
 	height: calc(100% - 144px);
-	z-index: -100"
+	width: calc(100% - 30px);
+	box-sizing: content-box;
 }
