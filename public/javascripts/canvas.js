@@ -7,6 +7,8 @@ var cursors = {};
 //Cursor specifics
 var relX = 0;
 var relY = 0;
+var oldX = 0;
+var oldY = 0;
 var cursorWidth = 22;
 var cursorHeight = 30;
 
@@ -56,12 +58,16 @@ $(document).ready(function(){
 	});
 
 	setInterval(function(){
-		api.send(ApiRequest.MouseMove, {
-			username: username,
-			/* Transform x,y into a 100x100 box */
-			x: (100*relX)/ctx.canvas.width,
-			y: (100*relY)/ctx.canvas.height
-		});
+		if(oldX != relX || oldY != relY){
+			api.send(ApiRequest.MouseMove, {
+				username: username,
+				/* Transform x,y into a 100x100 box */
+				x: (100*relX)/ctx.canvas.width,
+				y: (100*relY)/ctx.canvas.height
+			});
+		}
+		oldX = relX;
+		oldY = relY;
 	}, 20);
 
 	//Start animation cycle

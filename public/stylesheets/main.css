@@ -36,6 +36,18 @@ p {
 	margin-bottom: 5px;
 }
 
+#username-group, #message-group {
+	max-width: 200px;
+}
+
+@media (max-width: 767px) {
+	#username-group, #message-group {
+		display: inline-block;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+}
+
 /**
  * 03. Canvas Style
  */
