@@ -21,6 +21,17 @@ case class Login(username: String) extends Msg {
   }
 }
 
+case object Logout { val msgType = 12 }
+case class Logout()
+case class LogoutResponse(username: String) extends Msg {
+  def json = {
+    toJson(Map(
+      "type" -> toJson(Logout.msgType),
+      "username" -> toJson(username)
+    ))
+  }
+}
+
 case object SendMessage { val msgType = 31 }
 case class SendMessage(msg: String)
 case class SendMessageResponse(msg: String, username: String) extends Msg {
@@ -56,6 +67,9 @@ class ChatServerActor extends Actor {
     case (out: ActorRef, msg: String) => {
       val request = Json.parse(msg)
       handle(out, toRequest(request))
+    }
+    case (out: ActorRef, PoisonPill) => {
+      handle(out, Some(Logout()))
     }
   }
 
@@ -104,6 +118,13 @@ class ChatServerActor extends Actor {
       users += (out -> username)
       val notification = toResponse(Login(username))
       sendAll(notification)
+    }
+    case Some(Logout()) => {
+      val username = users.get(out)
+      username.foreach { name => {
+        users.remove(out)
+        sendAll(toResponse(LogoutResponse(name), true))
+      }}
     }
     case Some(SendMessage(msg)) => {
       val username = users.get(out)

@@ -14,4 +14,8 @@ class ChatWebsocket(out: ActorRef) extends Actor {
       ChatServerActor.serverRef ! (out, msg)
     }
   }
+
+  override def postStop = {
+    ChatServerActor.serverRef ! (out, PoisonPill)
+  }
 }

@@ -52,5 +52,10 @@ $(document).ready(function(){
         if(data.success){ receiveMessages([data.username + ' joined the chat']); }
         else { alert(data.error_text); }
     });
+    //Receive logout notifications
+    api.register(ApiRequest.Logout, function(data){
+        if(data.success){ receiveMessages([data.username + ' left the chat']); }
+        else { alert(data.error_text); }
+    });
 
 });

@@ -50,6 +50,11 @@ $(document).ready(function(){
 			cursors[data.username] = { x: data.x, y: data.y };
 		}
 	});
+    //Receive logout notifications
+    api.register(ApiRequest.Logout, function(data){
+        if(data.success){ delete cursors[data.username]; }
+        else { alert(data.error_text); }
+    });
 
 	$('#chat').mousemove(function(e){
 		var parentOffset = $(this).offset(); 
