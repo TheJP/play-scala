@@ -22,11 +22,29 @@ function draw(){
 	var factorX = ctx.canvas.width / 100;
 	var factorY = ctx.canvas.height / 100;
 
+	//Draw cursors
 	if(enable){
 		for(var key in cursors){
+			ctx.save();
+
+			//cursor
 			var x = cursors[key].x * factorX;
 			var y = cursors[key].y * factorY;
 			ctx.drawImage(cursor, x-2, y, cursorWidth, cursorHeight);
+			//username
+			ctx.font = "14pt Helvetica";
+			ctx.textAlign = 'center';
+			//calculates width: var metrics = ctx.measureText(key);
+			x += cursorWidth / 2;
+			y += cursorHeight + 20;
+			//draw a white outline around the username
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = 'white';
+			ctx.strokeText(key, x, y);
+			//draw the username
+			ctx.fillText(key, x, y);
+
+			ctx.restore();
 		}
 	}
 
