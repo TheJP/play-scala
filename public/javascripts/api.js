@@ -46,7 +46,7 @@ var ErrorType = {
     Custom : 600
 };
 var api = {
-    wsUri : 'ws://127.0.0.1:9000/socket', //Testing environment
+    wsUri : 'ws://' + window.location.host + '/socket', //Testing environment
     sid : null,
     ws : null,
     ready : false,

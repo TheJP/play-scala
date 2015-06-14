@@ -129,8 +129,12 @@ class ChatServerActor extends Actor {
     case Some(SendMessage(msg)) => {
       val username = users.get(out)
       if(username != None){
-        val notification = toResponse(SendMessageResponse(msg, username.get))
-        sendAll(notification)
+        if(msg.trim().isEmpty()){
+          out ! toResponse(SendMessageResponse("STOP SPAM", "system"), true)
+        } else {
+          val notification = toResponse(SendMessageResponse(msg, username.get))
+          sendAll(notification)
+        }
       }
     }
     case Some(r: MouseMove) => {
