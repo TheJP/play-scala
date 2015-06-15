@@ -22,3 +22,7 @@ resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 routesGenerator := InjectedRoutesGenerator
 
 EclipseKeys.createSrc := EclipseCreateSrc.All
+
+// Don't include api documentation in releases
+sources in (Compile, doc) := Seq.empty
+publishArtifact in (Compile, packageDoc) := false
